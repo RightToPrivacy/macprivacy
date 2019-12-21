@@ -1,0 +1,26 @@
+#!/bin/bash
+# runs in background
+# mac concept from maccleaner righttoprivacy@tutanota.com
+# Randomized mac addresses w/randomized continually changing times to protect against mac fingerprint/mac change 
+# timing pattern analysis and tor browser exploits known to target mac addresses (javascript)
+
+	hostname="Computer"
+	hightime=1200  	# highest number for timing randomizer (higher the number longer potential change
+	lowtime=500    	# lowest number (lower the number, lower potential time changed)
+	hostnamectl set-hostname $hostname
+	/bin/echo -e "Your computer name is now \e[1;31m$hostname\e[0m on networks"
+		while :
+		do
+			hexchar="ABCDEF0123456789"
+			beg=$(shuf -n 1 OUI.final)
+			end=$( for i in {1..6} ; do echo -n ${hexchar:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/:\1/g' )
+			mac=$beg$end
+			rando=$((RANDOM%$hightime+$lowtime))
+			/bin/echo -e "\e[1;37mghosting MAC/device name\e[0m: random times at random addresses '(MAC address in privacy mode)'"
+			/bin/echo -e "Changing MAC to: \e[1;31m$mac\e[0m"
+			ip link set dev $device down;ip link set dev $device address $mac;ip link set dev $device up;
+			sleep 1
+			echo ""
+			echo 'next change: random times, random addresses in:' $rando'sec'
+			sleep $rando
+
