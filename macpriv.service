@@ -1,0 +1,15 @@
+# Contents of /etc/systemd/system/anonsurf.service
+[Unit]
+Description=Hostname/MAC Address privacy service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/macpriv 
+ExecStop=killall -9 macpriv;killall -9 sleep; 
+
+[Install]
+WantedBy=multi-user.target
+
+
+# Runlevel5
