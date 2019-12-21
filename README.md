@@ -1,6 +1,4 @@
-Disable/Enable randomly changing mac addresses at random continuously changing time intervals:
-
-simply make sure anonsurf has CHANGING_MAC variable set to 'yes' to enable mac/hostname changing feature. Set CHANGING_MAC variable to 'no' to disable feature and it will disregard entire process. It stops the process in the stop function and starts with start function when enabled.
+Disable/Enable randomly changing mac addresses/hostname at random continuously changing time intervals:
 
 I also added (completely optional- read below) ability to run macpriv as a daemon/systemd service.
 
