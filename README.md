@@ -1,10 +1,18 @@
-Disable/Enable randomly changing mac addresses/hostname at random continuously changing time intervals:
+Randomly change mac addresses/hostname at random continuously changing time intervals,
+randomly chosen, continually changing mac address & randomly chosen hostname on each
+mac address change:
 
-I also added (completely optional- read below) ability to run macpriv as a daemon/systemd service.
+To run as stand alone:
+put OUI.final into /root/OUI.final (or whereever you set oui_file variable in macpriv script)
+chmod +x macpriv
+sudo ./macpriv
 
-macprivacy install as command: simply follow run make and skip the rest of below
+macprivacy install as command: 
+move macpriv to /usr/bin/macpriv
+chmod +x macpriv
+sudo macpriv
 
-Add as systemd service (keep anonsurf w/optional mac changing/hostname changing running all the time): -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Add as (optional) systemd service (continually changing mac changing/hostname changing running all the time): -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 1.) move OUI.final file to /root/OUI.final (or wherever you set $oui_file variable to)
 
@@ -30,6 +38,7 @@ To restart as service:
 
 systemctl restart macpriv.service
 
-As mentioned, this package alone lets you run anonsurf as simply a command just by skipping all systemctl commands. If you need help email me below:
+As mentioned, this package alone lets you run macpriv as a command or an at boot
+systemd service for constant mac address/hostname privacy. If you need help email me below:
 
 Contact: righttoprivacy@tutanota.com or @righttoprivacy on the Parrot Forums
