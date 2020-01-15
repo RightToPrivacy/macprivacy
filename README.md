@@ -1,6 +1,8 @@
+# USE: Security/Privacy
+
 Randomly change mac addresses/hostname at random continuously changing time intervals,
-randomly chosen, continually changing mac address & randomly chosen hostname on each
-mac address change:
+randomly chosen, continually changing mac address & is given a randomly chosen generic hostname 
+on each mac address change:
 
 To run as stand alone:
 put OUI.final into /root/OUI.final (or whereever you set oui_file variable in macpriv script)
