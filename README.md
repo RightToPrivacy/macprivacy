@@ -1,11 +1,12 @@
-# USE: Security/Privacy
+# USE: Security and Privacy: MAC/hostname continual randomization
 
 Randomly change mac addresses/hostname at random continuously changing time intervals,
 randomly chosen, continually changing mac address & is given a randomly chosen generic hostname 
 on each mac address change:
 
 To run as stand alone:
-put OUI.final into /root/OUI.final (or whereever you set oui_file variable in macpriv script)
+mkdir /usr/share/maccleaner 
+put OUI.final into /usr/share/maccleaner/OUI.final (or whereever you set oui_file variable in macpriv script)
 chmod +x macpriv
 sudo ./macpriv
 
