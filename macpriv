@@ -1,23 +1,23 @@
 #!/bin/bash
-# Part of righttoprivacy@tutanota.com's Parrot AnonSurf fork:
-# download: https://github.com/RightToPrivacy/anonsurf-1
-
-# runs great on any Linux system;
-# In Anonsurf fork changing $MAC_CHANGING var to 'yes' in anonsurf script
-# enables this script;
-# $MAC_CHANGING set to 'no' runs Anonsurf w/out hostname/mac changes;
 #
-# Also runs standalone for mac/hostname changes
+# runs great on any Linux system;
+#
+# Try this as systemd service or standalone command for continually changing mac/hostname changes
 # concept/bash by righttoprivacy@tutanota.com
 #
 # Randomized mac addresses at randomized continually changing times to protect 
 # against mac fingerprint/mac change changes hostname to randomized name each 
 # mac change (logged by routers/networks) to prevent timing pattern analysis and 
 # tor browser exploits known to target mac addresses/hostname (javascript)
+#
+# This function also found in my Parrot Anonsurf fork: https://github.com/RightToPrivacy/anonsurf-1
 
 export BLUE='\033[1;94m'
 export RED='\033[1;91m'
 export RESETCOLOR='\033[1;00m'
+
+# Detect/Save device
+netdev="$(nmcli dev status | awk '/ connected/' |awk '{print $1;}' | grep -v 'bridge' | grep -v 'tun')"
 
 hostn() {
 	array[0]="localhost" 
@@ -27,20 +27,22 @@ hostn() {
 	array[4]="Apple" 
 	array[5]="PC" 
 	array[6]="Toshiba"
-	hostnames=$[ $RANDOM % 7 ]
-	hostnamectl set-hostname ${array[$hostnames]}
-	/bin/echo -e "$BLUE Your computer hostname (logged by router/network) is now \e[1;31m${array[$hostnames]}\e[0m"
-	# ensure GUI apps do not fail to connect to X server
-	cookie="$(xauth list | awk '{print $NF}' | tail -n 1)"
-	xauth add "${array[$hostnames]}/unix:0" MIT-MAGIC-COOKIE-1 $cookie
-	chown $USER /home/$USER/.Xauthority
+	hostbase=$[ $RANDOM % 7 ]
+        randhostname=${array[$hostbase]}'-'$RANDOM
+        hostnamectl set-hostname $randhostname
+        /bin/echo -e "$BLUE Your new computer hostname (logged by router/network) is now \e[1;31m$randhostname"
+
 }
 
-hightime=1200  			# highest number for timing randomizer (higher the number longer potential change
-lowtime=600    			# lowest number (lower the number, lower potential time changed)
-wifi=wlan0				# set your wifi device here
+hightime=1200  					# highest number for timing randomizer (higher the number longer potential change
+lowtime=600    					# lowest number (lower the number, lower potential time changed)
+# netdev=wlan0					# set your wifi device here- uncomment/use this variable if not autodetected
 oui_file=/usr/share/maccleaner/OUI.final	# full path to OUI.final file here required for valid mac randomization generation
 
+# Call/set randomized hostname (static hostnames can be used to fingerprint)
+hostn
+
+# Start continually changing mac addresses at continually changing times
 while :
 do
 	hexchar="ABCDEF0123456789"
@@ -50,9 +52,8 @@ do
 	rando=$((RANDOM%$hightime+$lowtime))
 	/bin/echo -e "\e[1;37mghosting MAC/device name\e[0m: $BLUE random times at random addresses '(MAC address in privacy mode)'"
 	/bin/echo -e "$BLUE Changing MAC to: \e[1;31m$mac\e[0m"
-	ip link set dev $wifi down;ip link set dev $wifi address $mac;ip link set dev $wifi up;
+	ip link set dev $netdev down;ip link set dev $netdev address $mac;ip link set dev $netdev up;
 	sleep 1
-	hostn
 	echo ""
 	/bin/echo -e "$BLUE next change: random times, random addresses in: $RED $rando$BLUE sec"
 	sleep $rando
