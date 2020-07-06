@@ -1,3 +1,7 @@
+### For more customizable use (and many more options/flags for single command use)
+### Check out WiPri: https://github.com/righttoprivacy/wipri based on this
+### but with additional features/improvements
+
 # USE: Security and Privacy: MAC/hostname continual randomization
 
 Randomly change mac addresses/hostname at random continuously changing time intervals,
